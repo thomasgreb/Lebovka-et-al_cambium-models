@@ -300,4 +300,3 @@ void uncoupleCle::CellDynamics(CellBase *c, double *dchem) {
 }
 
 
-Q_EXPORT_PLUGIN2(uncoupleCle, uncoupleCle)
