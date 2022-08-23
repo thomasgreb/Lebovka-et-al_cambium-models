@@ -29,8 +29,8 @@
 
 class Model3D : public QObject, SimPluginInterface {
 	Q_OBJECT
-	Q_INTERFACES(SimPluginInterface);
-	Q_PLUGIN_METADATA(IID "org.virtualleaf.Model3D")
+    Q_INTERFACES(SimPluginInterface);
+    Q_PLUGIN_METADATA(IID "org.virtualleaf.Model3D")
 
 public:
 	virtual QString ModelID(void);
@@ -55,7 +55,7 @@ public:
 	// return number of chemicals
 	virtual int NChem(void);
 
-   virtual QString DefaultLeafML(void) {return QString("cell.000000.xml");}
+   virtual QString DefaultLeafML(void) {return QString("parameter_set1.xml");}
 };
 
 

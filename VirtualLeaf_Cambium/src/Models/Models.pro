@@ -11,8 +11,7 @@ Model2C \
 Model3A \
 Model3B \
 Model3C \
-#Model3D \
-Model3D_fitting
+Model3D \
 #Turing \
 #Test \
 #Tutorial0 \
