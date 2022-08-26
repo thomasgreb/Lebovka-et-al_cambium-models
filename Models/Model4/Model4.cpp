@@ -32,35 +32,38 @@
 #include "flux_function.h"
 
 #include "node.h"
-#include "Model3D.h"
+#include "Model4.h"
 
 
 static const std::string _module_id("$Id$");
 
 
-QString Model3D::ModelID(void) { return QString( "Model 3D for Fitting" ); }
+QString Model4::ModelID(void) { return QString( "Model 4" ); }
 
 
-int Model3D::NChem(void) { return 9; }
+int Model4::NChem(void) { return 9; }
 
 // To be executed after cell division
-void Model3D::OnDivide(ParentInfo *parent_info, CellBase *daughter1, CellBase *daughter2) {
+void Model4::OnDivide(ParentInfo *parent_info, CellBase *daughter1, CellBase *daughter2) {
 	daughter1->SetChemical(7, 1);
 	daughter2->SetChemical(7, 1);
 	daughter1->SetChemical(8, daughter1->Chemical(8)*0.75);
 	daughter2->SetChemical(8, daughter2->Chemical(8)*0.75);
 }
-void Model3D::SetCellColor(CellBase *c, QColor *color) { 
+void Model4::SetCellColor(CellBase *c, QColor *color) { 
     double i2 = 0.0001;
 	double i3 = 1;
     double i4 = 0.0001;
 
     double col = c->Chemical(6)/(i2 + c->Chemical(6));
     double blue = c->Chemical(1)/(i3 + c->Chemical(1));
-    //double col = c->Chemical(2)/(i4 + c->Chemical(2));
-    color->setRgbF(0,col,blue);
+    double PXYa_green = 0.6* c->Chemical(2)/(i4 + c->Chemical(2));
+    double PXYa_blue = 0.4* c->Chemical(2)/(i4 + c->Chemical(2));
 
+    color->setRgbF(0,col,blue);
+    //color -> setRgbF(0, PXYa_green, PXYa_blue);
     // 0 xylem
+
     if((c->CellType())==0)
     {
         color->setRgbF(0.5 ,0,0);
@@ -82,6 +85,7 @@ void Model3D::SetCellColor(CellBase *c, QColor *color) {
     {
         color->setRgbF(0.79,0.78,0.79);
     }
+
 
     //double red = c->Chemical(7)/(0.1+ c->Chemical(7));
     //color->setRgbF(red,0,0);  //uncomment this line to visualize divisions
@@ -108,7 +112,7 @@ void Model3D::SetCellColor(CellBase *c, QColor *color) {
 */
 }
 /*
-void Model3D::SetCellColor(CellBase *c, QColor *color) { 
+void Model4::SetCellColor(CellBase *c, QColor *color) { 
 	  double i2 = 0.0001;
 	  double i3 = 1;
     double col = c->Chemical(9)/(i2 + c->Chemical(9));
@@ -119,7 +123,7 @@ void Model3D::SetCellColor(CellBase *c, QColor *color) {
         color->setRgbF(col,0,0);
 }
 */
-void Model3D::CellHouseKeeping(CellBase *c) {
+void Model4::CellHouseKeeping(CellBase *c) {
       //cout << c->Index() << "\t" <<
               //c->CellType() << "\t" <<
               //c->Area() << "\t" <<
@@ -208,7 +212,7 @@ void Model3D::CellHouseKeeping(CellBase *c) {
         }
     }
 }
-void Model3D::CelltoCellTransport(Wall *w, double *dchem_c1, double *dchem_c2) {
+void Model4::CelltoCellTransport(Wall *w, double *dchem_c1, double *dchem_c2) {
     double phi, phi_2, phi_4, phi_5,  phi_6;
     if (w->C1()->BoundaryPolP() || w->C2()->BoundaryPolP()){
         phi   = 0.0;
@@ -236,10 +240,10 @@ void Model3D::CelltoCellTransport(Wall *w, double *dchem_c1, double *dchem_c2) {
     dchem_c2[6]-=phi_6;
   
 }
-void Model3D::WallDynamics(Wall *w, double *dw1, double *dw2) {
+void Model4::WallDynamics(Wall *w, double *dw1, double *dw2) {
   // add biochemical networks for reactions occuring at walls here
 }
-void Model3D::CellDynamics(CellBase *c, double *dchem) { 
+void Model4::CellDynamics(CellBase *c, double *dchem) { 
   // add biochemical networks for intracellular reactions here
 	
 	// this sum allows additive effect from PXY-ACTIVE and chemical 3
