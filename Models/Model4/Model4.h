@@ -27,10 +27,10 @@
 #include "simplugin.h"
 
 
-class Model3D : public QObject, SimPluginInterface {
+class Model4 : public QObject, SimPluginInterface {
 	Q_OBJECT
     Q_INTERFACES(SimPluginInterface);
-    Q_PLUGIN_METADATA(IID "org.virtualleaf.Model3D")
+    Q_PLUGIN_METADATA(IID "org.virtualleaf.Model4")
 
 public:
 	virtual QString ModelID(void);
@@ -55,7 +55,7 @@ public:
 	// return number of chemicals
 	virtual int NChem(void);
 
-   virtual QString DefaultLeafML(void) {return QString("parameter_set1.xml");}
+   virtual QString DefaultLeafML(void) {return QString("test_PE.xml");}
 };
 
 
