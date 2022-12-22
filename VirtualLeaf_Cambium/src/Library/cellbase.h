@@ -202,8 +202,8 @@ class CellBase :  public QObject, public Vector
   inline double Area(void) const { return area; }
   inline double LumenArea(void) const { return lum_area; }
 
-  inline double SetWallStability(double value_stability) {return wall_stability = value_stability;}
-  inline double GetWallStability(void) const {return wall_stability;}
+  inline double SetWallStiffness(double value_stiffness) {return wall_stiffness = value_stiffness;}
+  inline double GetWallStiffness(void) const {return wall_stiffness;}
 
   inline double SetLigninContent (double lignin_value) {return lignin_content = lignin_value;}
   inline double GetLigninContent (void) const {return lignin_content;}
@@ -474,7 +474,7 @@ class CellBase :  public QObject, public Vector
   double target_area;
   double target_length;
   double lambda_celllength;
-  double wall_stability; // Lebovka et al
+  double wall_stiffness; // Lebovka et al
   double lignin_content; // Lebovka et al
   bool TRANSP0_fixed;
   double stiffness; // stiffness like in Hogeweg (2000)

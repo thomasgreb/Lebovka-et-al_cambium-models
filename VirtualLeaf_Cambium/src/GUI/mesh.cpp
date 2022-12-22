@@ -795,12 +795,12 @@ double Mesh::DisplaceNodes(void) {
       // Lebovka et al
       for (list<Neighbor>::iterator c=cit->nb1->owners.begin(); c!=cit->nb1->owners.end(); c++) {
         if (std::find(intersection_no_nb1.begin(), intersection_no_nb1.end(), c->cell->Index()) != intersection_no_nb1.end()) {
-            w1 += (c->cell->Index() !=-1?c->cell->GetWallStability():par.rel_perimeter_stiffness);
+            w1 += (c->cell->Index() !=-1?c->cell->GetWallStiffness():par.rel_perimeter_stiffness);
         }
       }
       for (list<Neighbor>::iterator c=cit->nb2->owners.begin(); c!=cit->nb2->owners.end(); c++) {
         if (std::find(intersection_no_nb2.begin(), intersection_no_nb2.end(), c->cell->Index()) != intersection_no_nb2.end()) {
-             w2 += (c->cell->Index() !=-1?c->cell->GetWallStability():par.rel_perimeter_stiffness);
+             w2 += (c->cell->Index() !=-1?c->cell->GetWallStiffness():par.rel_perimeter_stiffness);
         }
       }
       w1 =w1/2 ;

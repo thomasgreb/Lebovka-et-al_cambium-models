@@ -78,7 +78,7 @@ CellBase::CellBase(QObject *parent) :
   lum_area=0.; // Lebovka et al
   target_area=1;
   target_length=0; //par.target_length;
-  wall_stability=1; //Lebovka et al
+  wall_stiffness=1; //Lebovka et al
   lignin_content = 0; // Lebovka et al
   lambda_celllength = 0; //par.lambda_celllength;
   intgrl_xx=0.; intgrl_xy=0.; intgrl_yy=0.;
@@ -123,7 +123,7 @@ CellBase::CellBase(double x,double y,double z) : QObject(), Vector(x,y,z)
   target_length=0; //par.target_length;
   lambda_celllength=0; // par.lambda_celllength;
 
-  wall_stability=1; //Lebovka et al
+  wall_stiffness=1; //Lebovka et al
   lignin_content = 0; // Lebovka et al
   index=(NCells()++);
 
@@ -165,7 +165,7 @@ CellBase::CellBase(const CellBase &src) :  QObject(), Vector(src)
   intgrl_xx=src.intgrl_xx; intgrl_xy=src.intgrl_xy; intgrl_yy=src.intgrl_yy;
   intgrl_x=src.intgrl_x; intgrl_y=src.intgrl_y;
 
-  wall_stability=src.wall_stability; //Lebovka et al
+  wall_stiffness=src.wall_stiffness; //Lebovka et al
   lignin_content = src.lignin_content; // Lebovka et al
   target_area=src.target_area;
   index=src.index;
@@ -210,7 +210,7 @@ CellBase CellBase::operator=(const CellBase &src)
   target_length=src.target_length;
   lambda_celllength=src.lambda_celllength;
 
-  wall_stability=src.wall_stability; //Lebovka et al
+  wall_stiffness=src.wall_stiffness; //Lebovka et al
   lignin_content = src.lignin_content; // Lebovka et al
   index=src.index;
 
@@ -331,7 +331,7 @@ double CellBase::CalcLumenArea(void) const
     radius +=  ((this->Centroid() - pompilio).Norm());
     }
   radius /= this->NNodes();
-  double thickness = this->GetWallStability();
+  double thickness = this->GetWallStiffness();
   double erre = 1 - (thickness/radius);
     double loc_lum_area=0.;
     for (list<Node *>::const_iterator i=nodes.begin(); i!=(nodes.end()); i++) {
@@ -782,7 +782,7 @@ double CellBase::ExactLumenCircumference(void)
       radius +=  ((this->Centroid() - pompilio).Norm());
     }
     radius /= this->NNodes();
-  double thickness = this->GetWallStability();
+  double thickness = this->GetWallStiffness();
   double erre = 1 - (thickness/radius);
     for (list<Node *>::const_iterator i=nodes.begin(); i!=(nodes.end()); i++) {
         list<Node *>::const_iterator i_plus_1=i; i_plus_1++;

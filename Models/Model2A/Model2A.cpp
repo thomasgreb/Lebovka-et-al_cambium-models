@@ -51,10 +51,10 @@ void Model2A::OnDivide(ParentInfo *parent_info, CellBase *daughter1, CellBase *d
 void Model2A::SetCellColor(CellBase *c, QColor *color) {
 	
     // add cell coloring rules here
-    double blue = 0; //c->Chemical(1)/(par->i3 + c->Chemical(1));
+    double blue =c->Chemical(1)/(par->i3 + c->Chemical(1));
     double green = c->Chemical(2)/(par->i4 + c->Chemical(2));
 
-	color->setRgbF(0,green,blue);
+    //color->setRgbF(0,green,blue);
     /*
 	//cell type 0 is xylem
 	if((c->CellType())==0) {
@@ -76,8 +76,10 @@ void Model2A::SetCellColor(CellBase *c, QColor *color) {
     //double red = c->Chemical(0)/(par->k[14] + c->Chemical(0)); 	//uncomment this line to visualize CLE41
     //color->setRgbF(red,red,0);									//uncomment this line to visualize CLE41
 
-    //double red = c->Chemical(6)/(0.01 + c->Chemical(6));          //uncomment this line to visualize the division rate
+    double red = c->Chemical(6)/(0.01 + c->Chemical(6));          //uncomment this line to visualize the division rate
     //color ->setRgbF(red,0,0);                                     //uncomment this line to visualize the division rate
+    color ->setRgbF(red,green,blue);                                     //uncomment this line to for the color code in Video 9
+
     /*
     if((c->CellType())==0) {color->setRgbF(0,0.6,0.8);}
     if((c->CellType())==1) {color->setRgbF(0.7,0.2,0.2);}
@@ -89,8 +91,8 @@ void Model2A::SetCellColor(CellBase *c, QColor *color) {
     if((c->CellType())==7) {color->setRgbF(0.65,0.5,0.55);}
     if((c->CellType())==8) {color->setRgbF(0.1,0.1,0.6);}
     if((c->CellType())==9) {color->setRgbF(0.5,0.5,0);}
-
     */
+
 
 }
 
@@ -146,6 +148,12 @@ void Model2A::CellHouseKeeping(CellBase *c) {
 void Model2A::CelltoCellTransport(Wall *w, double *dchem_c1, double *dchem_c2) {
     // add biochemical transport rules here
     
+    // definition of correction factors to ensure mass conservation
+    double A_tot = w->C1()->Area() + w->C2()->Area();
+    double diff_cor1 = w->C2()->Area()/ A_tot;
+    double diff_cor2 = w->C1()->Area()/ A_tot;
+
+
 	// this part allows CLE41 to diffuse
 	double phi, phi_2, phi_3;
     if (w->C1()->BoundaryPolP() || w->C2()->BoundaryPolP()) {
@@ -157,8 +165,8 @@ void Model2A::CelltoCellTransport(Wall *w, double *dchem_c1, double *dchem_c2) {
 		phi  =  w->Length() * par->D[0] * ( w->C2()->Chemical(0) - w->C1()->Chemical(0) );
     }
 
-    dchem_c1[0]+=phi;
-    dchem_c2[0]-=phi;
+    dchem_c1[0]+=diff_cor1 * phi;
+    dchem_c2[0]-=diff_cor2 * phi;
 }
 void Model2A::WallDynamics(Wall *w, double *dw1, double *dw2) {
     // add biochemical networks for reactions occuring at walls here
