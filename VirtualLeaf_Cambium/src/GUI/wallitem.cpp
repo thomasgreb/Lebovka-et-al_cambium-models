@@ -59,7 +59,7 @@ WallItem::WallItem( Wall *w, int wallnumber, QGraphicsScene *canvas )
   setLine(( from.x ),
 	  ( from.y ),
 	  ( to.x ),
-	  ( to.y ) );
+      ( to.y ) );
   setZValue(12);
 }
 

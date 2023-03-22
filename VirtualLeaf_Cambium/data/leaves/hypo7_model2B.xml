@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<leaf name="C:/nice/VirtualLeaf-v1.0-src/data/leaves/hypo7.xml" date="Thu Feb 25 13:50:42 2016" simtime="208160">
+<leaf name="C:/nice/VirtualLeaf-v1.0-src/data/leaves/hypo7.xml" date="Thu Feb 25 13:50:42 2016" simtime="0">
   <parameter>
     <par name="arrowcolor" val="white"/>
     <par name="arrowsize" val="10"/>

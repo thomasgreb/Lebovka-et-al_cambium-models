@@ -1,0 +1,15 @@
+CREATE ..\..\lib\libvleaf.a
+ADDMOD debug\cellbase.o
+ADDMOD debug\matrix.o
+ADDMOD debug\output.o
+ADDMOD debug\parameter.o
+ADDMOD debug\parse.o
+ADDMOD debug\random.o
+ADDMOD debug\simplugin.o
+ADDMOD debug\UniqueMessage.o
+ADDMOD debug\vector.o
+ADDMOD debug\wallbase.o
+ADDMOD debug\warning.o
+ADDMOD debug\moc_cellbase.o
+ADDMOD debug\moc_UniqueMessage.o
+SAVE

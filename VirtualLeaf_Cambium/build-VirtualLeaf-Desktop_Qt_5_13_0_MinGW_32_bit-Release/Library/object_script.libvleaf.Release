@@ -1,0 +1,15 @@
+CREATE ..\..\lib\libvleaf.a
+ADDMOD release\cellbase.o
+ADDMOD release\matrix.o
+ADDMOD release\output.o
+ADDMOD release\parameter.o
+ADDMOD release\parse.o
+ADDMOD release\random.o
+ADDMOD release\simplugin.o
+ADDMOD release\UniqueMessage.o
+ADDMOD release\vector.o
+ADDMOD release\wallbase.o
+ADDMOD release\warning.o
+ADDMOD release\moc_cellbase.o
+ADDMOD release\moc_UniqueMessage.o
+SAVE

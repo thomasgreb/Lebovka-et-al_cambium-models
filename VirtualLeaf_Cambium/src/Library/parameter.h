@@ -103,6 +103,8 @@
   double k18;
   double k19;
   double k20;
+  double k21;
+  double k22;
   double wk1;
   double wk2;
   double wk3;

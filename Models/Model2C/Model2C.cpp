@@ -51,7 +51,7 @@ void Model2C::OnDivide(ParentInfo *parent_info, CellBase *daughter1, CellBase *d
 void Model2C::SetCellColor(CellBase *c, QColor *color) {
 	
     // add cell coloring rules here
-	double blue = c->Chemical(1)/(par->i3 + c->Chemical(1));
+    double blue =c->Chemical(1)/(par->i3 + c->Chemical(1));
 	double green = c->Chemical(2)/(par->i4 + c->Chemical(2));
 
 	color->setRgbF(0,green,blue);
@@ -72,8 +72,12 @@ void Model2C::SetCellColor(CellBase *c, QColor *color) {
 			}
 		}
 	}
-	// double red = c->Chemical(0)/(par->k[14] + c->Chemical(0)); 	//uncomment this line to visualize CLE41
-	// color->setRgbF(red,red,0);									//uncomment this line to visualize CLE41
+
+     //double red = c->Chemical(0)/(par->k[14] + c->Chemical(0)); 	//uncomment this line to visualize CLE41
+     //color->setRgbF(red,red,0);									//uncomment this line to visualize CLE41
+
+    //double red = c->Chemical(6)/(0.01 + c->Chemical(6));          //uncomment this line to visualize the division rate
+    //color ->setRgbF(red,0,0);
 }
 
 void Model2C::CellHouseKeeping(CellBase *c) {
@@ -127,7 +131,10 @@ void Model2C::CellHouseKeeping(CellBase *c) {
 
 void Model2C::CelltoCellTransport(Wall *w, double *dchem_c1, double *dchem_c2) {
     // add biochemical transport rules here
-    
+    // definition of correction factors to ensure mass conservation
+    double A_tot = w->C1()->Area() + w->C2()->Area();
+    double diff_cor1 = w->C2()->Area()/ A_tot;
+    double diff_cor2 = w->C1()->Area()/ A_tot;
 	// this part allows CLE41 to diffuse
 	double phi, phi_2, phi_3;
     if (w->C1()->BoundaryPolP() || w->C2()->BoundaryPolP()) {
@@ -139,8 +146,9 @@ void Model2C::CelltoCellTransport(Wall *w, double *dchem_c1, double *dchem_c2) {
 		phi  =  w->Length() * par->D[0] * ( w->C2()->Chemical(0) - w->C1()->Chemical(0) );
     }
 
-    dchem_c1[0]+=phi;
-    dchem_c2[0]-=phi;
+    dchem_c1[0]+=diff_cor1 * phi;
+    dchem_c2[0]-=diff_cor2 * phi;
+
 }
 void Model2C::WallDynamics(Wall *w, double *dw1, double *dw2) {
     // add biochemical networks for reactions occuring at walls here

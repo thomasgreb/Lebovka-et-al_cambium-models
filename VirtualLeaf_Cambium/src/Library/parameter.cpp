@@ -131,6 +131,8 @@ Parameter::Parameter() {
   k18 = 0;
   k19 = 0;
   k20 = 0;
+  k21 = 0;
+  k22 = 0;
   wk1 = 0;
   wk2 = 0;
   wk3 = 0;
@@ -333,6 +335,8 @@ void Parameter::Read(const char *filename) {
   k18 = fgetpar(fp, "k18", 0, true);
   k19 = fgetpar(fp, "k19", 0, true);
   k20 = fgetpar(fp, "k20", 0, true);
+  k21 = fgetpar(fp, "k21", 0, true);
+  k22 = fgetpar(fp, "k22", 0, true);
   wk1 = fgetpar(fp, "wk1", 0, true);
   wk2 = fgetpar(fp, "wk2", 0, true);
   wk3 = fgetpar(fp, "wk3", 0, true);
@@ -499,6 +503,8 @@ void Parameter::Write(ostream &os) const {
   os << " k18 = " << k18 << "\n";
   os << " k19 = " << k19 << "\n";
   os << " k20 = " << k20 << "\n";
+  os << " k21 = " << k21 << "\n";
+  os << " k22 = " << k22 << "\n";
   os << " wk1 = " << wk1 << "\n";
   os << " wk2 = " << wk2 << "\n";
   os << " wk3 = " << wk3 << "\n";
@@ -1267,6 +1273,22 @@ text << sbool(copy_wall);
   xmlparameter.appendChild(xmlpar);
   ostringstream text;
     text << k20;
+  xmlpar.setAttribute("val",text.str().c_str());
+}
+{
+  QDomElement xmlpar = doc.createElement("par");
+  xmlpar.setAttribute("name","k21" );
+  xmlparameter.appendChild(xmlpar);
+  ostringstream text;
+    text << k21;
+  xmlpar.setAttribute("val",text.str().c_str());
+}
+{
+  QDomElement xmlpar = doc.createElement("par");
+  xmlpar.setAttribute("name","k22" );
+  xmlparameter.appendChild(xmlpar);
+  ostringstream text;
+    text << k22;
   xmlpar.setAttribute("val",text.str().c_str());
 }
 {
@@ -2211,6 +2233,14 @@ if (!strcmp(namec, "k19")) {
 if (!strcmp(namec, "k20")) {
   k20 = standardlocale.toDouble(valc, &ok);
   if (!ok) { MyWarning::error("Read error: cannot convert string \"%s\" to double while reading parameter 'k20' from XML file.",valc); }
+}
+if (!strcmp(namec, "k21")) {
+  k21 = standardlocale.toDouble(valc, &ok);
+  if (!ok) { MyWarning::error("Read error: cannot convert string \"%s\" to double while reading parameter 'k21' from XML file.",valc); }
+}
+if (!strcmp(namec, "k22")) {
+  k22 = standardlocale.toDouble(valc, &ok);
+  if (!ok) { MyWarning::error("Read error: cannot convert string \"%s\" to double while reading parameter 'k22' from XML file.",valc); }
 }
 if (!strcmp(namec, "wk1")) {
   wk1 = standardlocale.toDouble(valc, &ok);

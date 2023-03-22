@@ -58,12 +58,15 @@ void Model3C::SetCellColor(CellBase *c, QColor *color) {
     double i4 = 0.0001;
 
 
-    //double col =  c->Chemical(6)/(i2 + c->Chemical(6));
-    double blue =0; // c->Chemical(1)/(i3 + c->Chemical(1));
-    double col = c->Chemical(2)/(i4 + c->Chemical(2));
+    double col = c->Chemical(6)/(i2 + c->Chemical(6)); // uncomment this for DF
+    //double col= c->Chemical(2)/(i4+c->Chemical(2));
+    double blue = 0; //c->Chemical(1)/(i3 + c->Chemical(1));
+    double PXYa_green = 0.6* c->Chemical(2)/(i4 + c->Chemical(2));
+    double PXYa_blue = 0.4* c->Chemical(2)/(i4 + c->Chemical(2));
 
-    color->setRgbF(0,col,blue);
-/*
+    //color->setRgbF(0,col,blue);
+    color -> setRgbF(0, PXYa_green, blue);
+    /*
     // 0 xylem
     if((c->CellType())==0)
     {
@@ -190,7 +193,11 @@ void Model3C::CellHouseKeeping(CellBase *c) {
 
 void Model3C::CelltoCellTransport(Wall *w, double *dchem_c1, double *dchem_c2) {
   // add biochemical transport rules here
-  
+
+    // definition of correction factors to ensure mass conservation
+    double A_tot = w->C1()->Area() + w->C2()->Area();
+    double diff_cor1 = w->C2()->Area()/ A_tot;
+    double diff_cor2 = w->C1()->Area()/ A_tot;
   
     // add biochemical transport rules here
     double phi, phi_2, phi_3, phi_4, phi_5,  phi_6;
@@ -211,21 +218,20 @@ void Model3C::CelltoCellTransport(Wall *w, double *dchem_c1, double *dchem_c2) {
         phi_6  =  w->Length() * par->D[0] * ( w->C2()->Chemical(6) - w->C1()->Chemical(6) );
     }
 
-    dchem_c1[0]+=phi;
-    dchem_c2[0]-=phi;
+    dchem_c1[0]+=diff_cor1 * phi;
+    dchem_c2[0]-=diff_cor2 * phi;
 
-    dchem_c1[3]+=phi_2;
-    dchem_c2[3]-=phi_2;
+    dchem_c1[3]+=diff_cor1 * phi_2;
+    dchem_c2[3]-=diff_cor2 * phi_2;
 
+    dchem_c1[4]+=diff_cor1 * phi_4;
+    dchem_c2[4]-=diff_cor2 * phi_4;
 
-    dchem_c1[4]+=phi_4;
-    dchem_c2[4]-=phi_4;
+    dchem_c1[5]+=diff_cor1 * phi_5;
+    dchem_c2[5]-=diff_cor2 * phi_5;
 
-    dchem_c1[5]+=phi_5;
-    dchem_c2[5]-=phi_5;
-
-    dchem_c1[6]+=phi_6;
-    dchem_c2[6]-=phi_6;
+    dchem_c1[6]+=diff_cor1 * phi_6;
+    dchem_c2[6]-=diff_cor2 * phi_6;
   
 }
 void Model3C::WallDynamics(Wall *w, double *dw1, double *dw2) {
@@ -248,13 +254,13 @@ void Model3C::CellDynamics(CellBase *c, double *dchem) {
 	//////////////////////////////////////////////////////////////////////////////////
 
 	// CLE41
-	dchem[0] = -0.11 * c->Chemical(0) - 1 * c->Chemical(0) * c->Chemical(1);
+    dchem[0] = -0.11 * c->Chemical(0);
 
 	// PXY FREE
-	dchem[1] = -1 * c->Chemical(0) * c->Chemical(1) - par->k[13] * c->Chemical(1);
+    dchem[1] = - par->k[13] * c->Chemical(1);
 
 	// PXY ACTIVE
-	dchem[2] =  1 * c->Chemical(0) * c->Chemical(1) - 0.1  * c->Chemical(2);
+    dchem[2] =  0;
 
 
 	// PROMOTES DIVISION CHEMICAL	(COMES FROM PHLOEM POLES)

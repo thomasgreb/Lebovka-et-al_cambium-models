@@ -1674,7 +1674,7 @@ void Cell::DrawThick(QGraphicsScene *c){
     }
 
     radius /= this->NNodes();
-    double thickness = this->GetWallStability();
+    double thickness = this->GetWallStiffness();
     double erre = 1 - (thickness/radius);
     for (list<Node *>::const_iterator n=nodes.begin(); n!=nodes.end(); n++) {
         Node *i=*n;
